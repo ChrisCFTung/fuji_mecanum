@@ -1,19 +1,19 @@
 <?xml version="1.0" ?>
 <robot name="wheel" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="roller_origin" params="th side" >
+  <xacro:macro name="roller_origin" params="th side sf" >
 
     <xacro:if value="${side==1}">
-      <origin xyz="0 ${0.0895*cos(th)} ${0.0895*sin(th)}" rpy="${atan(-tan(th)*sqrt(2.0))} ${asin(cos(th)/sqrt(2.0))} ${atan(sin(th))}"/>
+      <origin xyz="0 ${sf*0.0895*cos(th)} ${sf*0.0895*sin(th)}" rpy="${atan(-tan(th)*sqrt(2.0))} ${asin(cos(th)/sqrt(2.0))} ${atan(sin(th))}"/>
     </xacro:if>
 
     <xacro:if value="${side==-1}">
-      <origin xyz="0 ${0.0895*cos(th)} ${0.0895*sin(th)}" rpy="${atan(-tan(th)*sqrt(2.0))} ${asin(-cos(th)/sqrt(2.0))} ${atan(-sin(th))}"/>
+      <origin xyz="0 ${sf*0.0895*cos(th)} ${sf*0.0895*sin(th)}" rpy="${atan(-tan(th)*sqrt(2.0))} ${asin(-cos(th)/sqrt(2.0))} ${atan(-sin(th))}"/>
     </xacro:if>
 
   </xacro:macro>
 
-  <xacro:macro name="roller_loop" params="name side num loop" >
+  <xacro:macro name="roller_loop" params="name side num loop sf" >
 
     <xacro:if value="${loop}">
 
@@ -21,17 +21,17 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://fuji_mecanum/mesh/visual/roller.dae" scale="1 1 1" />
+            <mesh filename="package://fuji_mecanum/mesh/visual/roller.dae" scale="${sf} ${sf} ${sf}" />
           </geometry>        
         </visual>
         <collision>
           <geometry>
-            <mesh filename="package://fuji_mecanum/mesh/collision/roller.stl" scale="1 1 1" />
+            <mesh filename="package://fuji_mecanum/mesh/collision/roller.stl" scale="${sf} ${sf} ${sf}" />
           </geometry>
         </collision>
         <inertial>
           <origin xyz="0 0 0" />
-          <mass value="0.3" />
+          <mass value="${sf*0.3}" />
           <inertia ixx="0.00024000" ixy="0.0" ixz="0.0"
                   iyy="0.00076000" iyz="0.0"
                   izz="0.00076000" />
@@ -39,7 +39,7 @@
       </link>
 
       <joint name="${name}_roller${loop}_joint" type="continuous">
-        <xacro:roller_origin th="${radians(360/num*(loop-1))}" side="${side}"/>
+        <xacro:roller_origin th="${radians(360/num*(loop-1))}" side="${side}" sf="${sf}"/>
         <axis xyz="1 0 0"/>
         <parent link="${name}_wheel_link" />
         <child link="${name}_roller${loop}_link" />
@@ -65,14 +65,14 @@
         <fdir1 value="0 1 0"/>
       </gazebo>
     
-      <xacro:roller_loop name="${name}" side="${side}" num="${num}" loop="${loop - 1}" />
+      <xacro:roller_loop name="${name}" side="${side}" num="${num}" loop="${loop - 1}" sf="${sf}" />
       
     </xacro:if>
 
   </xacro:macro>
 
-  <xacro:macro name="rollers_link" params="name side">
-    <xacro:roller_loop name="${name}" side="${side}" num="15" loop="15" />    
+  <xacro:macro name="rollers_link" params="name side sf">
+    <xacro:roller_loop name="${name}" side="${side}" num="15" loop="15" sf="${sf}"/>    
   </xacro:macro>
 
 </robot>

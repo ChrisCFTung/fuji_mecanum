@@ -33,10 +33,10 @@
     <fdir1 value="0 1 0"/>
   </gazebo>
 
-  <xacro:mecanum_wheel name="front_right" side="1"  interface="hardware_interface/EffortJointInterface"/>
-  <xacro:mecanum_wheel name="front_left"  side="-1" interface="hardware_interface/EffortJointInterface"/>
-  <xacro:mecanum_wheel name="rear_right"  side="-1" interface="hardware_interface/EffortJointInterface"/>
-  <xacro:mecanum_wheel name="rear_left"   side="1"  interface="hardware_interface/EffortJointInterface"/>
+  <xacro:mecanum_wheel name="front_right" side="1"  interface="hardware_interface/EffortJointInterface" sf="1"/>
+  <xacro:mecanum_wheel name="front_left"  side="-1" interface="hardware_interface/EffortJointInterface" sf="1"/>
+  <xacro:mecanum_wheel name="rear_right"  side="-1" interface="hardware_interface/EffortJointInterface" sf="1"/>
+  <xacro:mecanum_wheel name="rear_left"   side="1"  interface="hardware_interface/EffortJointInterface" sf="1"/>
 
   <joint name="front_right_wheel_joint" type="continuous">    
     <origin xyz="0.3 -0.25 -0.1" rpy="0 0 ${pi/2}" />

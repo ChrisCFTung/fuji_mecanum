@@ -4,10 +4,10 @@
   <xacro:include filename="$(find fuji_mecanum)/urdf/wheel.xacro" />
   <xacro:include filename="$(find fuji_mecanum)/urdf/rollers.xacro"  />
 
-  <xacro:macro name="mecanum_wheel" params="name side interface">  
+  <xacro:macro name="mecanum_wheel" params="name side interface sf">  
     
-    <xacro:wheel_link name="${name}" side="${side}" />    
-    <xacro:rollers_link name="${name}" side="${side}" />
+    <xacro:wheel_link name="${name}" side="${side}" sf="${sf}"/>    
+    <xacro:rollers_link name="${name}" side="${side}" sf="${sf}"/>
 
     <transmission name="${name}_wheel_trans">
       <type>transmission_interface/SimpleTransmission</type>
